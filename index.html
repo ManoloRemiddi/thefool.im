@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Major Arcana — The 22 Archetypal Cards</title>
+  <meta name="description" content="Browse the 22 Major Arcana tarot cards. Click a card to see its image and a short description of its core meaning.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e0b1a'/%3E%3Cpath d='M16 5l2.2 6.4 6.8.4-5.4 4.2 1.9 6.6-5.5-3.8-5.5 3.8 1.9-6.6-5.4-4.2 6.8-.4z' fill='%23d4af37'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="page-nav">
+      <a href="index.html" class="here" aria-current="page">The Cards</a>
+      <span class="nav-sep" aria-hidden="true">&middot;</span>
+      <a href="how-to-read.html">How to Read</a>
+      <span class="nav-sep" aria-hidden="true">&middot;</span>
+      <a href="ai-reader.html">AI Card Reader</a>
+    </nav>
+    <h1>Major Arcana</h1>
+    <p class="tagline">The 22 archetypal cards of the tarot &mdash; click a card to read its meaning.</p>
+  </header>
+
+  <main>
+    <!-- Visual navigator: all 22 cards as small tiles -->
+    <nav class="strip" id="strip" aria-label="Major Arcana cards"></nav>
+
+    <!-- Detail view: large image left, meaning right -->
+    <section class="detail" id="detail" aria-live="polite">
+      <figure class="card-figure">
+        <img id="card-img" src="" alt="">
+      </figure>
+      <article class="card-info">
+        <p class="card-number" id="card-number"></p>
+        <h2 class="card-name" id="card-name"></h2>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="card-meaning" id="card-meaning"></p>
+        <h3 class="elements-title">Key Elements</h3>
+        <ul class="card-elements" id="card-elements"></ul>
+        <div class="card-nav">
+          <button id="prev-card" type="button" aria-label="Previous card">&#8249;</button>
+          <span class="card-index" id="card-index"></span>
+          <button id="next-card" type="button" aria-label="Next card">&#8250;</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Card images courtesy of <a href="https://www.historyoftarot.com/major-arcana/" target="_blank" rel="noopener">historyoftarot.com</a>.</p>
+  </footer>
+
+  <script src="js/cards-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
