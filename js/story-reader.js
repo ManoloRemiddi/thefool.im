@@ -28,6 +28,7 @@ const storyIn      = $("story");
 const focusIn      = $("focus");
 const storyCount   = $("story-count");
 const readerStatus = $("reader-status");
+const interpStatus = $("interp-status");
 
 /* ---------- state ---------- */
 
@@ -35,11 +36,17 @@ let chosen = [];        // card objects selected for the story
 let messages = [];      // LLM conversation history (the reading call)
 let busy = false;
 
-/* ---------- status helper ---------- */
+/* ---------- status helpers ---------- */
 
 function setStatus(text, kind) {
   readerStatus.textContent = text;
   readerStatus.className = "reader-status" + (kind ? " " + kind : "");
+}
+
+function setInterpStatus(text, kind) {
+  interpStatus.hidden = !text;
+  interpStatus.textContent = text;
+  interpStatus.className = "interp-status" + (kind ? " " + kind : "");
 }
 
 /* ---------- word count ---------- */
@@ -328,7 +335,14 @@ async function readStory() {
     cardsEl.hidden = false;
     cardsEl.scrollIntoView({ behavior: "smooth", block: "center" });
 
+    // Make it unmistakable that work is continuing: the interpretation
+    // section appears with a pulsing "working" line, and the streamed
+    // words then appear below it as they arrive.
     setStatus("");
+    readingEl.hidden = false;
+    setInterpStatus("✦ The interpretation is being written — the words will appear below as they arrive…", "working");
+    readingEl.scrollIntoView({ behavior: "smooth", block: "start" });
+
     messages = [
       { role: "system", content: READING_SYSTEM },
       { role: "user", content: buildReadingUserMessage(story, focus) },
@@ -340,11 +354,13 @@ async function readStory() {
     });
     if (!raw.trim()) throw new Error("empty response");
     messages.push({ role: "assistant", content: raw });
+    setInterpStatus("");
     renderMarkdownLite(readingBody, raw);
-    readingEl.hidden = false;
     readingEl.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (err) {
-    setStatus("Reading failed: " + err.message, "err");
+    const msg = "Reading failed: " + err.message;
+    setStatus(msg, "err");
+    if (!readingEl.hidden) setInterpStatus(msg, "err");
   } finally {
     busy = false;
     btnReadStory.disabled = false;

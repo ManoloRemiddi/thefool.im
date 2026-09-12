@@ -50,6 +50,7 @@ const followupIn     = $("followup");
 const questionIn     = $("question");
 const drawHint       = $("draw-hint");
 const readerStatus   = $("reader-status");
+const interpStatus   = $("interp-status");
 
 /* ---------- state ---------- */
 
@@ -63,6 +64,12 @@ let readingActive = false;
 function setStatus(text, kind) {
   readerStatus.textContent = text;
   readerStatus.className = "reader-status" + (kind ? " " + kind : "");
+}
+
+function setInterpStatus(text, kind) {
+  interpStatus.hidden = !text;
+  interpStatus.textContent = text;
+  interpStatus.className = "interp-status" + (kind ? " " + kind : "");
 }
 
 /* ---------- step flow ---------- */
@@ -287,6 +294,7 @@ async function startReading() {
   readingEl.hidden = false;
   readingBody.innerHTML = "";
   setStatus("");
+  setInterpStatus("✦ The reading is being written — the words will appear below as they arrive…", "working");
 
   messages = [
     { role: "system", content: SYSTEM_PROMPT },
@@ -301,11 +309,14 @@ async function startReading() {
     });
     if (!raw.trim()) throw new Error("empty response");
     messages.push({ role: "assistant", content: raw });
+    setInterpStatus("");
     renderMarkdownLite(readingBody, raw);
     readingEl.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (err) {
     readingBody.innerHTML = "";
-    setStatus("Reading failed: " + err.message, "err");
+    const msg = "Reading failed: " + err.message;
+    setStatus(msg, "err");
+    setInterpStatus(msg, "err");
   } finally {
     readingActive = false;
     btnRead.disabled = false;
@@ -322,6 +333,7 @@ async function sendFollowup() {
   readingActive = true;
   btnFollowup.disabled = true;
   setStatus("");
+  setInterpStatus("✦ Thinking…", "working");
 
   const qEl = document.createElement("p");
   qEl.className = "followup-q";
@@ -337,6 +349,7 @@ async function sendFollowup() {
     });
     if (!raw.trim()) throw new Error("empty response");
     messages.push({ role: "assistant", content: raw });
+    setInterpStatus("");
     const live = readingBody.querySelector(".reading-live");
     if (live) live.remove();
     const aEl = document.createElement("div");
@@ -345,7 +358,9 @@ async function sendFollowup() {
     readingBody.appendChild(aEl);
     aEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
   } catch (err) {
-    setStatus("Follow-up failed: " + err.message, "err");
+    const msg = "Follow-up failed: " + err.message;
+    setStatus(msg, "err");
+    setInterpStatus(msg, "err");
   } finally {
     readingActive = false;
     btnFollowup.disabled = false;

@@ -675,6 +675,27 @@ main {
   margin: 0 0 6px;
 }
 
+/* "working" indicator while a reading is being generated */
+.interp-status {
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.interp-status.working {
+  color: var(--gold);
+  font-style: italic;
+  animation: interp-pulse 1.6s ease-in-out infinite;
+}
+
+.interp-status.err {
+  color: #e08f8f;
+}
+
+@keyframes interp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 .followup-q {
   margin: 22px 0 4px;
   color: var(--gold);
