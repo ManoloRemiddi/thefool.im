@@ -666,6 +666,15 @@ main {
 
 .reading-live { white-space: pre-wrap; }
 
+.reading-body ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.reading-body li {
+  margin: 0 0 6px;
+}
+
 .followup-q {
   margin: 22px 0 4px;
   color: var(--gold);
@@ -738,4 +747,35 @@ main {
 
   .tile { padding: 6px 6px 5px; }
   .tile .tile-name { font-size: 0.6rem; }
+}
+
+/* ---------- Story Reader ---------- */
+
+#story {
+  width: 100%;
+  min-height: 170px;
+  resize: vertical;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ink);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+#story:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.char-count {
+  text-align: right;
+  margin: -8px 2px 12px;
+}
+
+.mirror-note {
+  text-align: center;
+  margin: 20px 0 0;
 }

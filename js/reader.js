@@ -229,6 +229,28 @@ function inlineMd(s) {
     .replace(/\*([^*\n]+)\*/g, "<i>$1</i>");
 }
 
+function appendBody(container, lines) {
+  const list = lines.filter((l) => /^\s*[-*]\s+/.test(l));
+  if (list.length) {
+    const ul = document.createElement("ul");
+    list.forEach((l) => {
+      const li = document.createElement("li");
+      li.innerHTML = inlineMd(l.replace(/^\s*[-*]\s+/, ""));
+      ul.appendChild(li);
+    });
+    container.appendChild(ul);
+  }
+  const para = lines
+    .filter((l) => l.trim() && !/^\s*[-*]\s+/.test(l))
+    .join(" ")
+    .trim();
+  if (para) {
+    const p = document.createElement("p");
+    p.innerHTML = inlineMd(para);
+    container.appendChild(p);
+  }
+}
+
 function renderMarkdownLite(container, text) {
   container.innerHTML = "";
   stripThink(text).split(/\n{2,}/).forEach((block) => {
@@ -238,16 +260,9 @@ function renderMarkdownLite(container, text) {
       const h = document.createElement("h3");
       h.innerHTML = inlineMd(lines[0].replace(/^##\s+/, ""));
       container.appendChild(h);
-      const rest = lines.slice(1).join(" ").trim();
-      if (rest) {
-        const p = document.createElement("p");
-        p.innerHTML = inlineMd(rest);
-        container.appendChild(p);
-      }
+      appendBody(container, lines.slice(1));
     } else {
-      const p = document.createElement("p");
-      p.innerHTML = inlineMd(block.trim());
-      container.appendChild(p);
+      appendBody(container, lines);
     }
   });
 }
@@ -322,6 +337,8 @@ async function sendFollowup() {
     });
     if (!raw.trim()) throw new Error("empty response");
     messages.push({ role: "assistant", content: raw });
+    const live = readingBody.querySelector(".reading-live");
+    if (live) live.remove();
     const aEl = document.createElement("div");
     aEl.className = "followup-a";
     renderMarkdownLite(aEl, raw);
