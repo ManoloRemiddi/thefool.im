@@ -20,6 +20,24 @@
 
 html { scroll-behavior: smooth; }
 
+/* ---------- links ----------
+   Body links: normal text color + underline (no blue, no purple).
+   Specific areas (nav, footer) keep their own color rules. */
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+a:visited {
+  color: var(--ink);
+}
+
+a:hover {
+  color: var(--gold);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
