@@ -801,14 +801,16 @@ main {
   margin: 20px 0 0;
 }
 
-/* Story Reader — "why this works" intro */
-.why {
-  text-align: left;
+/* Story Reader — one-line frame above step 1 */
+.opener p {
+  max-width: 560px;
+  margin: 0 auto 6px;
+  color: var(--ink-dim);
+  font-style: italic;
 }
 
-.why p {
-  max-width: 660px;
-  margin: 0 auto 14px;
+.opener a {
+  color: var(--ink-dim);
 }
 
 .quote {
