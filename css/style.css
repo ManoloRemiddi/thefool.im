@@ -800,3 +800,38 @@ main {
   text-align: center;
   margin: 20px 0 0;
 }
+
+/* Story Reader — "why this works" intro */
+.why {
+  text-align: left;
+}
+
+.why p {
+  max-width: 660px;
+  margin: 0 auto 14px;
+}
+
+.quote {
+  max-width: 560px;
+  margin: 20px auto;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--gold);
+  font-style: italic;
+  color: var(--gold);
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
+.quote .cite {
+  display: block;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--ink-dim);
+  margin-top: 8px;
+}
+
+.source-link {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink-dim);
+}
