@@ -186,7 +186,7 @@ const HOSTED_API =
 
 function apiEndpoint() {
   return HOSTED_API
-    ? "https://augmentor.tail1ce34f.ts.net:8443/tarot/api/read"
+    ? "https://r-nas1.tail1ce34f.ts.net:8443/tarot/api/read"
     : "api/read";
 }
 
